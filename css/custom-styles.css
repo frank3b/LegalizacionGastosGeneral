@@ -1,0 +1,46 @@
+@CHARSET "ISO-8859-1";
+
+.info,.success,.warning,.error,.validation {
+	#border: 1px solid;
+	margin: 10px 0px;
+	padding: 10px 20px 10px 70px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+.info {
+	color: #00529B;
+	#background-color: #BDE5F8;
+	background-image: url('../images/chulo.png');
+}
+
+.success {
+	color: #4F8A10;
+	#background-color: #DFF2BF;
+	background-image: url('../images/chulo.png');
+}
+
+.warning {
+	color: #9F6000;
+	#background-color: #FEEFB3;
+	background-image: url('../images/bt_i.png');
+}
+
+.error {
+	color: #D8000C;
+	#background-color: #FFBABA;
+	background-image: url('../images/ic_notification_clear.png');
+}
+
+.custom-label{
+	font-size: 12px;
+}
+}
+
+.custom-button {
+	border:0.4px solid; border-radius:0.4px;
+}
+
+.custom_title {
+	color: #9F6000;
+}

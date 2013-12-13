@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name = "viewport" content = "user-scalable=no, width=device-width" />
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<title>Demo Legalización de gastos de Viajes</title>
+
+<link href="jquery.mobile/jquery.mobile.theme-1.3.2.css" rel="stylesheet">
+<link href="jquery.mobile/jquery.mobile.structure-1.3.2.css" rel="stylesheet">
+<link href="css/custom-styles.css" rel="stylesheet">
+<link href="css/jqm-datebox.min.css" rel="stylesheet">
+
+<script src="js/kinvey-phonegap-1.1.2.min.js"></script>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/jquery.mobile-1.3.2.js"></script>
+<script src="js/gestion-viajes.js"></script>
+
+<script type="text/javascript" src="js/datebox/jqm-datebox.core.min.js"></script>
+<script type="text/javascript" src="js/datebox/jqm-datebox.mode.calbox.min.js"></script>
+<script type="text/javascript" src="js/datebox/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
+<script type="text/javascript" src="phonegap.js"></script>
+<!-- 
+<link href="jquery.mobile/codiqa.ext.min.css" rel="stylesheet">
+<script src="js/codiqa.ext.min.js"></script>
+-->
+
+<!-- 
+
+<script type="text/javascript" charset="utf-8" src="cordova-1.9.0.js"></script>
+ -->
+
+<script type="text/javascript" charset="utf-8">
+	var onDeviceReady = function() {
+		//document.getElementById("devready").innerHTML = "OnDeviceReady fired.";
+
+		window.resolveLocalFileSystemURI("file:///android_asset", function(
+				entry) {
+			console.log(entry.fullPath);
+		}, function(evt) {
+			console.log(evt.code);
+		});
+	};
+</script>
+
+</head>
+<body onload="init();" id="stage" class="theme">
+
+	<!--Logon-->
+	<div data-role="page" id="logon" data-theme="b"
+		style="background: url('images/fondo.png'); background-size: 100% 100%;">
+
+		<div data-role="header" data-theme="b" align="center">
+			<h5>Gastos de viajes</h5>
+		</div>
+
+		<div data-role="content">
+			<p></p>
+			<div align="center">
+				<img src="images/Logo-Grupo-Bancolombia.png" alt="Bancolombia"
+					style="width: 288px;" />
+			</div>
+			<div data-controltype="textblock" style="height: 30px"></div>
+			
+			<div class="custom-label">
+				<b>Usuario</b>
+			</div>
+			<input type="text" name="usuario" id="usuario" value=""
+				data-type="vertical" onchange="$('#password').focus();" />
+			<div class="custom-label">
+				<b>Contraseña</b>
+			</div>
+			<input type="password" name="password" id="password" value=""
+				onchange="$('#ingresar').focus();" />
+
+			<div align="center">
+				<a id="ingresar" data-role="button" data-inline="true"
+					data-theme="b" href="#" data-icon="check" data-iconpos="left"
+					data-transition="pop"> Ingresar </a>
+				
+			</div>
+			<div id="mensaje" data-controltype="textblock"></div>
+			
+			<div data-theme="b" data-role="footer" data-position="fixed">
+		        <h5>
+		            2013 BANCOLOMBIA S.A.
+		        </h5>
+		    </div>
+		</div>
+
+	</div>
+
+	<!--Lista de viajes-->
+
+	<div data-role="page" data-control-title="legalizacion" data-theme="b"
+		id="listaViajesAprobados"
+		style="background: url('images/fondo.png'); background-size: 100% 100%;">
+
+		<div data-theme="b" data-role="header">
+			<h2>Listado de viajes</h2>
+			<a data-role="button" data-transition="slide" data-theme="b"
+				href="#logon" data-icon="home" data-iconpos="left"
+				class="ui-btn-left" onclick="salir();"> Salir </a>
+		</div>
+		<div data-role="content">
+			<div style="text-align: center" data-controltype="image">
+				<img src="images/Logo-Grupo-Bancolombia.png" alt="Bancolombia"
+					style="width: 288px;" />
+			</div>
+			<div data-controltype="textblock" style="height: 20px"></div>
+			<div data-controltype="textblock" id="bienvenidaText"></div>
+			<div data-controltype="textblock" style="height: 30px"></div>
+
+			<div id="mensajeViajes" data-controltype="textblock"></div>
+
+			<ul id="lstViajesAprobados" data-role="listview"
+				data-divider-theme="b" data-inset="true" data-filter="true"
+				data-filter-placeholder="Filtrar viajes..." data-theme="c">
+				<li data-role="list-divider" role="heading">Viajes aprobados</li>
+
+			</ul>
+		</div>
+
+	</div>
+
+	<!--/Listado viajes-->
+
+
+	<!--Gastos del viaje-->
+
+	<div data-role="page" data-control-title="Gastos del viaje"
+		data-theme="b" id="gastosViaje"
+		style="background: url('images/fondo.png'); background-size: 100% 100%;">
+
+		<div data-theme="b" data-role="header">
+			<a data-role="button" href="#" data-icon="plus"
+				data-iconpos="left" class="ui-btn-right" onclick="nuevoGasto();">
+				Agregar </a>
+			<h2>Gastos</h2>
+			<a data-role="button" data-transition="slide" data-theme="b"
+				href="#listaViajesAprobados" data-icon="back" data-iconpos="left"
+				class="ui-btn-left"> Atras </a>
+		</div>
+		<div data-role="content" style="padding: 20px">
+			<div style="text-align: center" data-controltype="image">
+				<img src="images/Logo-Grupo-Bancolombia.png" alt="Bancolombia"
+					style="width: 288px;" />
+			</div>
+
+			<div id="mensajeGastos" data-controltype="textblock"></div>
+			<div data-controltype="textblock" style="height: 20px"></div>
+			
+			<div class="custom-label">
+				<b>Numero de viaje</b>
+			</div>
+			<div data-role="fieldcontain" data-controltype="textinput" style="margin-top: 1px;">
+				<input type="text" name="txtViaje" id="txtViaje" value="" 
+					data-type="vertical" readonly="readonly"/>	
+			</div>
+
+			<ul id="lstGastos" data-role="listview" data-divider-theme="b"
+				data-inset="true" data-theme="c">
+
+			</ul>
+		</div>
+
+	</div>
+
+	<!--/Gastos del viaje-->
+
+	<!--Nuevo / Editar del viaje-->
+	<div data-role="page" data-control-title="nuevoGasto" data-theme="b"
+		id="nuevoGasto"
+		style="background: url('images/fondo.png'); background-size: 100% 100%;">
+		<div data-theme="b" data-role="header">
+			<a data-role="button" href="#Expense" data-icon="arrow-r" onclick="guardarGasto();"
+				data-iconpos="left" class="ui-btn-right"> Guardar </a>
+			<h2>Agregar</h2>
+			<a data-role="button" data-transition="slide" data-theme="b"
+				href="#gastosViaje" data-icon="back" data-iconpos="left"
+				class="ui-btn-left" onclick="regresarAGastos();"> Atras </a>
+		</div>
+		<div data-role="content">
+		
+			<div data-role="popup" id="popupFoto" class="photopopup ui-popup ui-overlay-shadow ui-body-c" data-overlay-theme="a" 
+					data-corners="false" data-tolerance="30,15" data-disabled="false" data-shadow="true" 
+					data-transition="none" data-position-to="origin">
+					
+					<a href='#nuevoGasto' data-rel='dialog' data-role='button' data-theme='b' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>X</a>
+			</div>	
+			
+			<div style="text-align: center" data-controltype="image">
+				<img src="images/Logo-Grupo-Bancolombia.png" alt="Bancolombia"
+					style="width: 288px;" />
+			</div>
+			<div data-controltype="textblock" style="height: 30px"></div>
+			<div id="mensajeNuevoGasto" data-controltype="textblock"></div>
+			<form action="">
+				<div class="custom-label">
+					<b>Clase de gasto</b>
+				</div>
+				<div data-role="fieldcontain" data-controltype="selectmenu" style="margin-top: 1px;">
+					 <select id="cmbClaseGasto" name="cmbClaseGasto" data-mini="false">
+						<option value="1">Traslados</option>
+						<option value="2">Capacitación</option>
+						<option value="3">Reuniones</option>
+					</select>
+				</div>
+				<div class="custom-label">
+					<b>Descripción</b>
+				</div>
+				<div data-role="fieldcontain" data-controltype="textarea" style="margin-top: 1px;">
+					<textarea name="" id="txtDescripcionGasto" placeholder=""
+						data-mini="false"></textarea>
+				</div>
+				<div class="custom-label">
+					<b>Monto</b>
+				</div>
+				<div data-role="fieldcontain" data-controltype="textinput" style="margin-top: 1px;">
+					<input name="" id="txtMontoGasto" placeholder="" value="" type="number"
+						data-mini="true">
+				</div>
+				<div class="custom-label">
+					<b>Moneda</b>
+				</div>
+				<div data-role="fieldcontain" data-controltype="selectmenu" style="margin-top: 1px;">
+					<select id="tipoMonedaSelect" name="cmbMoneda" data-mini="false">
+						<option value="COP">COP</option>
+						<option value="US">US</option>
+						<option value="EUR">EUR</option>
+					</select>
+				</div>
+				<div class="custom-label">
+					<b>Fecha del gasto</b>
+				</div>
+				<div data-role="fieldcontain" style="margin-top: 1px;">
+						<input name="txtFechaGasto" id="txtFechaGasto" type="date" data-role="datebox"
+   							data-options='{"mode": "calbox"}'>				
+				</div>
+				
+				<div data-role="footer" data-position="fixed">
+					<div id="navBarGastos" data-role="navbar" data-iconpos="right">
+						<ul>
+							<li><a href="#" data-transition="fade"onclick="tomarFoto();" data-theme="b" data-icon="">
+									Agregar factura
+							</a></li>
+							<li><a href="#verFactura" data-transition="fade" onclick="verFactura();"
+									data-theme="b" data-icon="">
+									Ver factura 
+							</a></li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--Nuevo / Editar del viaje-->
+	
+	<!--Detalle de la factura-->
+
+	<div data-role="page" data-control-title="Factura"
+		data-theme="b" id="verFactura"
+		style="background: url('images/fondo.png'); background-size: 100% 100%;">
+
+		<div data-theme="b" data-role="header">
+			
+			<h2>Factura</h2>
+			<a data-role="button" data-transition="slide" data-theme="b"
+				href="#nuevoGasto" data-icon="back" data-iconpos="left"
+				class="ui-btn-left"> Atras </a>
+		</div>
+		
+		<div id="popupFactura" style="height:100%" class="photopopup ui-popup ui-overlay-shadow ui-body-c" data-overlay-theme="a" 
+					data-corners="false">
+					
+		</div>	
+	</div>
+
+	<!--Detalle de la factura-->
+	
+</body>
+</html>
