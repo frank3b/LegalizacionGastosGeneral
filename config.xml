@@ -3,13 +3,13 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.bancolombia.gestionviajes"
+        id        = "com.bancolombia.legalizaciongastos"
         version   = "1.0.0">
 
     <name>Legalización de gastos de viaje</name>
 
     <description>
-        Legalización de gastos de viaje
+        Legalización de gastos de viaje TCS
     </description>
 
     <author href="http://www.tcs.com" email="frank.bedoya@tcs.com">
