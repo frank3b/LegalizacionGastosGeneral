@@ -34,12 +34,12 @@
 	var onDeviceReady = function() {
 		//document.getElementById("devready").innerHTML = "OnDeviceReady fired.";
 
-		//window.resolveLocalFileSystemURI("file:///android_asset", function(
-		//		entry) {
-		//	console.log(entry.fullPath);
-		//}, function(evt) {
-		//	console.log(evt.code);
-		//});
+		window.resolveLocalFileSystemURI("file:///android_asset", function(
+				entry) {
+			console.log(entry.fullPath);
+		}, function(evt) {
+			console.log(evt.code);
+		});
 	};
 </script>
 
