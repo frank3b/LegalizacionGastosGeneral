@@ -35,12 +35,12 @@
 	var onDeviceReady = function() {
 		//document.getElementById("devready").innerHTML = "OnDeviceReady fired.";
 
-		window.resolveLocalFileSystemURI("file:///android_asset", function(
-				entry) {
-			console.log(entry.fullPath);
-		}, function(evt) {
-			console.log(evt.code);
-		});
+		//window.resolveLocalFileSystemURI("file:///android_asset", function(
+		//		entry) {
+		//	console.log(entry.fullPath);
+		//}, function(evt) {
+		//	console.log(evt.code);
+		//});
 	};
 </script>
 
@@ -245,7 +245,7 @@
 							<li><a href="#" data-transition="fade"onclick="tomarFoto();" data-theme="b" data-icon="">
 									Agregar factura
 							</a></li>
-							<li><a href="#verFactura" data-transition="fade" onclick="verFactura();"
+							<li><a href="#" data-transition="fade" onclick="verFactura();"
 									data-theme="b" data-icon="">
 									Ver factura 
 							</a></li>
